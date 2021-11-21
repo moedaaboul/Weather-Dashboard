@@ -5,6 +5,34 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Weather Dashboard</title>
+    <link rel="stylesheet" href="styles.css" />
   </head>
-  <body></body>
+  <body>
+    <header>
+      <h1>Weather Dashboard</h1>
+    </header>
+    <div>
+      <aside>
+        <form>
+          <div>
+            <label for="searchCity">Search for a city:</label>
+            <input type="text" id="searchCity" placeholder="Manchester" />
+          </div>
+        </form>
+      </aside>
+      <main>
+        <section class="today">
+          <h2 class="todayWeather"></h2>
+          <p class="temp">Temp:</p>
+          <p class="wind">Wind:</p>
+          <p class="humidity">Humidity</p>
+          <p class="uv-index">UV Index:</p>
+        </section>
+        <section class="forecast">
+          <h3>5-Day Forecast</h3>
+          <section class="card"></section>
+        </section>
+      </main>
+    </div>
+  </body>
 </html>
