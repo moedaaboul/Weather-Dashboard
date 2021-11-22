@@ -1,3 +1,8 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
 aside {
   display: flex;
   flex-flow: column;
@@ -17,7 +22,9 @@ aside > form > div {
 .today {
   border: 1px solid;
   height: auto;
-  width: 100%;
+  width: 80%;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
 }
 
 main {
@@ -25,12 +32,12 @@ main {
   flex-flow: column wrap;
   justify-content: space-around;
   align-items: stretch;
-  width: 70%;
+  width: 100%;
 }
 
 .card {
   background: purple;
-  background-size: 24px 24px;
+  width: 100%;
 }
 
 section {
@@ -54,4 +61,11 @@ footer {
 
 .cards {
   display: flex;
+  justify-content: space-around;
+  width: 100%;
+}
+
+.forecast {
+  height: auto;
+  width: 80%;
 }

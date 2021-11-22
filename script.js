@@ -66,7 +66,12 @@ var getWeather = function (city, typeofUrl) {
             windElement.textContent = currentWind;
             humiditiyElement.textContent = currentHumidity;
             todayElement.textContent = cityName + " " + "(" + currentDate + ")";
-            forecastUrl = pathName + onecallUrl(lon, lat) + "&appid=" + apiKey;
+            forecastUrl =
+              pathName +
+              onecallUrl(lat, lon) +
+              unitsImperial +
+              "&appid=" +
+              apiKey;
             return fetch(forecastUrl);
           })
           .then((response) =>
