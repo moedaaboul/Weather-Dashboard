@@ -8,6 +8,9 @@ const forecastUrl = "forecast?q=";
 const currentUrl = "weather?q=";
 
 let variable = [];
+let lon;
+let lat;
+let searchHistory = [];
 
 var getUserRepos = function (city, typeofUrl) {
   var apiUrl = pathName + typeofUrl + city + "&appid=" + apiKey;
@@ -15,9 +18,12 @@ var getUserRepos = function (city, typeofUrl) {
   fetch(apiUrl)
     .then(function (response) {
       if (response.ok) {
+        searchHistory.push(city);
         response.json().then(function (data) {
           console.log(data);
           variable = data;
+          lon = variable.coord.lon;
+          lat = variable.coord.lat;
         });
       } else {
         alert("Error: " + response.statusText);
