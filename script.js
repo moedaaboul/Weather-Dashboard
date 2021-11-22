@@ -45,12 +45,13 @@ var getUserRepos = function (city, typeofUrl) {
           currentHumidity = "Humditity: " + variable.main.humidity + " %";
           cityName = variable.name;
           currentDate = variable.dt;
+          currentDate = moment.unix(currentDate).format("MM/DD/YYYY");
           currentTemp = "Temp: " + variable.main.temp + "°F";
           tempElement.textContent = currentTemp;
           windElement.textContent = currentWind;
           humiditiyElement.textContent = currentHumidity;
           // uviElement.textContent = currentTemp
-          todayElement.textContent = cityName + " " + currentDate;
+          todayElement.textContent = cityName + " " + "(" + currentDate + ")";
         });
       } else {
         alert("Error: " + response.statusText);
