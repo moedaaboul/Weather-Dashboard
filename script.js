@@ -13,11 +13,17 @@ const pathName = "https://api.openweathermap.org/data/2.5/";
 // const url =
 //   "https://api.openweathermap.org/data/2.5/weather?q={city name}&appid={API key}";
 
-const forecastUrl = "forecast?q=";
+("https://api.openweathermap.org/data/2.5/onecall?lat={lat}&lon={lon}&exclude={part}&appid={API key}");
+
+const onecallUrl = (latitude, longitude) => {
+  return `onecall?lat=${latitude}&lon=${longitude}&exclude=current,minutely,hourly`;
+};
 const currentUrl = "weather?q=";
 
 // https://openweathermap.org/current
 const unitsImperial = "&units=imperial";
+
+const parseDate = (unixDate) => moment.unix(unixDate).format("MM/DD/YYYY");
 
 let variable = [];
 let lon;
@@ -28,31 +34,58 @@ let currentHumidity;
 let cityName;
 let currentDate;
 let currentTemp;
+let variable2;
 
-var getUserRepos = function (city, typeofUrl) {
+const allowed = ["dt", "humidity", "temp", "uvi", "wind_speed"];
+
+var getWeather = function (city, typeofUrl) {
   var apiUrl = pathName + typeofUrl + city + unitsImperial + "&appid=" + apiKey;
 
   fetch(apiUrl)
     .then(function (response) {
       if (response.ok) {
         searchHistory.push(city);
-        response.json().then(function (data) {
-          console.log(data);
-          variable = data;
-          lon = variable.coord.lon;
-          lat = variable.coord.lat;
-          currentWind = "Wind: " + variable.wind.speed + " MPH";
-          currentHumidity = "Humditity: " + variable.main.humidity + " %";
-          cityName = variable.name;
-          currentDate = variable.dt;
-          currentDate = moment.unix(currentDate).format("MM/DD/YYYY");
-          currentTemp = "Temp: " + variable.main.temp + "°F";
-          tempElement.textContent = currentTemp;
-          windElement.textContent = currentWind;
-          humiditiyElement.textContent = currentHumidity;
-          // uviElement.textContent = currentTemp
-          todayElement.textContent = cityName + " " + "(" + currentDate + ")";
-        });
+        response
+          .json()
+          .then(function (data) {
+            console.log(data);
+            variable = data;
+            lon = variable.coord.lon;
+            lat = variable.coord.lat;
+            currentWind = "Wind: " + variable.wind.speed + " MPH";
+            currentHumidity = "Humidity: " + variable.main.humidity + " %";
+            cityName = variable.name;
+            currentDateUnix = variable.dt;
+            console.log(currentDateUnix);
+            currentDate = parseDate(currentDateUnix);
+            console.log(currentDate);
+            currentTemp = "Temp: " + variable.main.temp + "°F";
+            tempElement.textContent = currentTemp;
+            windElement.textContent = currentWind;
+            humiditiyElement.textContent = currentHumidity;
+            todayElement.textContent = cityName + " " + "(" + currentDate + ")";
+            forecastUrl = pathName + onecallUrl(lon, lat) + "&appid=" + apiKey;
+            return fetch(forecastUrl);
+          })
+          .then((response) =>
+            response.json().then(function (data2) {
+              console.log(data2);
+              variable2 = data2.daily;
+              let results = [];
+              variable2.forEach((e, i) => {
+                results.push(
+                  Object.keys(e)
+                    .filter((key) => allowed.includes(key))
+                    .reduce((obj, key) => {
+                      obj[key] = e[key];
+                      return obj;
+                    }, {})
+                );
+              });
+              console.log("results", results);
+              uviElement.textContent = results[0].uvi;
+            })
+          );
       } else {
         alert("Error: " + response.statusText);
       }
@@ -62,4 +95,4 @@ var getUserRepos = function (city, typeofUrl) {
     });
 };
 
-getUserRepos("Manchester", currentUrl);
+getWeather("Manchester", currentUrl);
