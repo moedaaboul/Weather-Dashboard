@@ -35,6 +35,7 @@ let cityName;
 let currentDate;
 let currentTemp;
 let variable2;
+let results = [];
 
 const allowed = ["dt", "humidity", "temp", "uvi", "wind_speed"];
 
@@ -71,7 +72,6 @@ var getWeather = function (city, typeofUrl) {
             response.json().then(function (data2) {
               console.log(data2);
               variable2 = data2.daily;
-              let results = [];
               variable2.forEach((e, i) => {
                 results.push(
                   Object.keys(e)
@@ -84,6 +84,11 @@ var getWeather = function (city, typeofUrl) {
               });
               console.log("results", results);
               uviElement.textContent = results[0].uvi;
+              const cardResults = [1, 2, 3, 4, 5].map((item) => results[item]);
+              console.log(cardResults);
+              // cardResults.forEach((e) => {
+
+              // })
             })
           );
       } else {
