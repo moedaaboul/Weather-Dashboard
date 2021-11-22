@@ -2,6 +2,12 @@
 //IMPORTANT DOCS ===============
 // https://openweathermap.org/weather-data
 
+const tempElement = document.querySelector(".temp");
+const windElement = document.querySelector(".wind");
+const humiditiyElement = document.querySelector(".humidity");
+const uviElement = document.querySelector(".uvi");
+const todayElement = document.querySelector(".todayWeather");
+
 const apiKey = "8fcf15f1446775617fe9577e790f0250";
 const pathName = "https://api.openweathermap.org/data/2.5/";
 // const url =
@@ -35,12 +41,16 @@ var getUserRepos = function (city, typeofUrl) {
           variable = data;
           lon = variable.coord.lon;
           lat = variable.coord.lat;
-          currentWind = variable.wind.speed + " MPH";
-          currentHumidity = variable.main.humidity + " %";
+          currentWind = "Wind: " + variable.wind.speed + " MPH";
+          currentHumidity = "Humditity: " + variable.main.humidity + " %";
           cityName = variable.name;
           currentDate = variable.dt;
-          // need to add small upper circle for F
-          currentTemp = variable.main.temp + "°F";
+          currentTemp = "Temp: " + variable.main.temp + "°F";
+          tempElement.textContent = currentTemp;
+          windElement.textContent = currentWind;
+          humiditiyElement.textContent = currentHumidity;
+          // uviElement.textContent = currentTemp
+          todayElement.textContent = cityName + " " + currentDate;
         });
       } else {
         alert("Error: " + response.statusText);
