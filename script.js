@@ -7,6 +7,7 @@ const windElement = document.querySelector(".wind");
 const humiditiyElement = document.querySelector(".humidity");
 const uviElement = document.querySelector(".uvi");
 const todayElement = document.querySelector(".todayWeather");
+const cardElements = document.querySelector(".cards");
 
 const apiKey = "8fcf15f1446775617fe9577e790f0250";
 const pathName = "https://api.openweathermap.org/data/2.5/";
@@ -86,9 +87,25 @@ var getWeather = function (city, typeofUrl) {
               uviElement.textContent = results[0].uvi;
               const cardResults = [1, 2, 3, 4, 5].map((item) => results[item]);
               console.log(cardResults);
-              // cardResults.forEach((e) => {
-
-              // })
+              cardResults.forEach((obj) => {
+                const datefcstElement = document.createElement("p");
+                const tempfcstElement = document.createElement("p");
+                const windfcstElement = document.createElement("p");
+                const humidityfcstElement = document.createElement("p");
+                const cardElement = document.createElement("div");
+                // rank.setAttribute("scope", "row");
+                datefcstElement.innerHTML = "Date: " + parseDate(obj.dt);
+                tempfcstElement.innerHTML = "Temp: " + obj.temp.day + "°F";
+                windfcstElement.innerHTML = "Wind: " + obj.wind_speed + " MPH";
+                humidityfcstElement.innerHTML =
+                  "Humidity: " + obj.humidity + " %";
+                cardElement.classList.add("card");
+                cardElement.appendChild(datefcstElement);
+                cardElement.appendChild(tempfcstElement);
+                cardElement.appendChild(windfcstElement);
+                cardElement.appendChild(humidityfcstElement);
+                cardElements.appendChild(cardElement);
+              });
             })
           );
       } else {
