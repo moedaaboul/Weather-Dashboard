@@ -8,6 +8,9 @@ const humiditiyElement = document.querySelector(".humidity");
 const uviElement = document.querySelector(".uvi");
 const todayElement = document.querySelector(".todayWeather");
 const cardElements = document.querySelector(".cards");
+const searchedElement = document.querySelector(".searchCity");
+const submitButton = document.querySelector(".submit");
+const main = document.querySelector("main");
 
 const apiKey = "8fcf15f1446775617fe9577e790f0250";
 const pathName = "https://api.openweathermap.org/data/2.5/";
@@ -46,22 +49,22 @@ var getWeather = function (city, typeofUrl) {
   fetch(apiUrl)
     .then(function (response) {
       if (response.ok) {
-        searchHistory.push(city);
+        // searchHistory.push(city);
         response
           .json()
           .then(function (data) {
             console.log(data);
             variable = data;
-            lon = variable.coord.lon;
-            lat = variable.coord.lat;
-            currentWind = "Wind: " + variable.wind.speed + " MPH";
-            currentHumidity = "Humidity: " + variable.main.humidity + " %";
-            cityName = variable.name;
-            currentDateUnix = variable.dt;
+            lon = data.coord.lon;
+            lat = data.coord.lat;
+            currentWind = "Wind: " + data.wind.speed + " MPH";
+            currentHumidity = "Humidity: " + data.main.humidity + " %";
+            cityName = data.name;
+            currentDateUnix = data.dt;
             console.log(currentDateUnix);
             currentDate = parseDate(currentDateUnix);
             console.log(currentDate);
-            currentTemp = "Temp: " + variable.main.temp + "°F";
+            currentTemp = "Temp: " + data.main.temp + "°F";
             tempElement.textContent = currentTemp;
             windElement.textContent = currentWind;
             humiditiyElement.textContent = currentHumidity;
@@ -122,4 +125,15 @@ var getWeather = function (city, typeofUrl) {
     });
 };
 
-getWeather("Manchester", currentUrl);
+const submitFunction = function (event) {
+  event.preventDefault();
+  let searchedCity = searchedElement.value;
+  cardElements.textContent = "";
+  results = [];
+  // push each score object to the array and save to local storage
+  searchHistory.push(searchedCity);
+  localStorage.setItem("storedHistory", JSON.stringify(searchHistory));
+  getWeather(searchedCity, currentUrl);
+};
+
+submitButton.addEventListener("click", submitFunction);

@@ -69,3 +69,13 @@ footer {
   height: auto;
   width: 80%;
 }
+
+button {
+  padding: 0.25rem;
+  margin-top: 0.25rem;
+}
+
+input {
+  padding: 0.25rem;
+  margin-top: 0.25rem;
+}
