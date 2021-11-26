@@ -41,6 +41,7 @@ const allowed = ["dt", "humidity", "temp", "uvi", "wind_speed", "weather"];
 
 var getWeather = function (city, typeofUrl) {
   var apiUrl = pathName + typeofUrl + city + unitsImperial + "&appid=" + apiKey;
+  // var apiUrl = `${pathName}${typeofUrl}${city}${unitsImperial}&appid=${apiKey}`
 
   fetch(apiUrl)
     .then(function (response) {
@@ -94,17 +95,22 @@ var getWeather = function (city, typeofUrl) {
               cardResults.forEach((obj) => {
                 const datefcstElement = document.createElement("p");
                 const tempfcstElement = document.createElement("p");
+                const iconElement = document.createElement("img");
                 const windfcstElement = document.createElement("p");
                 const humidityfcstElement = document.createElement("p");
                 const cardElement = document.createElement("div");
                 // rank.setAttribute("scope", "row");
                 datefcstElement.innerHTML = parseDate(obj.dt);
+                console.log(obj);
+                console.log(obj.weather[0].icon);
+                iconElement.src = `http://openweathermap.org/img/w/${obj.weather[0].icon}.png`;
                 tempfcstElement.innerHTML = "Temp: " + obj.temp.day + "°F";
                 windfcstElement.innerHTML = "Wind: " + obj.wind_speed + " MPH";
                 humidityfcstElement.innerHTML =
                   "Humidity: " + obj.humidity + " %";
                 cardElement.classList.add("card");
                 cardElement.appendChild(datefcstElement);
+                cardElement.appendChild(iconElement);
                 cardElement.appendChild(tempfcstElement);
                 cardElement.appendChild(windfcstElement);
                 cardElement.appendChild(humidityfcstElement);

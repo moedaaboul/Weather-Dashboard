@@ -25,8 +25,33 @@ aside > form > div {
   border: 1px solid;
   height: auto;
   width: 90%;
-  padding-top: 1rem;
+  padding-top: 0.25rem;
   padding-bottom: 1rem;
+  padding-left: 0.25rem;
+}
+
+.today > p {
+  padding-top: 1rem;
+}
+
+.card > * {
+  padding-left: 0.25rem;
+}
+
+.card {
+  margin: 1rem;
+}
+
+.card:first-of-type {
+  margin-left: 0;
+}
+
+.card:last-of-type {
+  margin-right: 0;
+}
+
+label {
+  font-size: 1.25rem;
 }
 
 main {
@@ -123,4 +148,8 @@ button {
   background-color: #707ad9;
   border-style: none;
   color: white;
+}
+
+img {
+  width: 4rem;
 }
