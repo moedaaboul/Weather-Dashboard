@@ -1,3 +1,5 @@
+@import url("https://fonts.googleapis.com/css2?family=Merriweather+Sans:wght@400;500;700&display=swap");
+
 * {
   margin: 0;
   padding: 0;
@@ -22,7 +24,7 @@ aside > form > div {
 .today {
   border: 1px solid;
   height: auto;
-  width: 80%;
+  width: 90%;
   padding-top: 1rem;
   padding-bottom: 1rem;
 }
@@ -36,8 +38,15 @@ main {
 }
 
 .card {
-  background: purple;
+  background: #512941;
   width: 100%;
+  color: white;
+  font-family: "Times New Roman", sans-serif;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  font-size: 1rem;
+  margin-right: 0.25rem;
 }
 
 section {
@@ -67,7 +76,7 @@ footer {
 
 .forecast {
   height: auto;
-  width: 80%;
+  width: 90%;
 }
 
 button {
@@ -78,4 +87,40 @@ button {
 input {
   padding: 0.25rem;
   margin-top: 0.25rem;
+}
+
+.hidden {
+  display: none;
+}
+
+/* header {
+  background-color: #171e55;
+  color: white;
+  background: linear-gradient(#fff 10%, #171e55 87%);
+} */
+
+header {
+  background: linear-gradient(-90deg, #171e55, #525a9f);
+  color: white;
+  font-family: "Merriweather Sans", sans-serif;
+  /* font-style: bold; */
+  /* animation: gradient 15s ease infinite; */
+}
+
+/* @keyframes header {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+} */
+
+button {
+  background-color: #707ad9;
+  border-style: none;
+  color: white;
 }

@@ -14,10 +14,6 @@ const main = document.querySelector("main");
 
 const apiKey = "8fcf15f1446775617fe9577e790f0250";
 const pathName = "https://api.openweathermap.org/data/2.5/";
-// const url =
-//   "https://api.openweathermap.org/data/2.5/weather?q={city name}&appid={API key}";
-
-("https://api.openweathermap.org/data/2.5/onecall?lat={lat}&lon={lon}&exclude={part}&appid={API key}");
 
 const onecallUrl = (latitude, longitude) => {
   return `onecall?lat=${latitude}&lon=${longitude}&exclude=current,minutely,hourly`;
@@ -41,7 +37,7 @@ let currentTemp;
 let variable2;
 let results = [];
 
-const allowed = ["dt", "humidity", "temp", "uvi", "wind_speed"];
+const allowed = ["dt", "humidity", "temp", "uvi", "wind_speed", "weather"];
 
 var getWeather = function (city, typeofUrl) {
   var apiUrl = pathName + typeofUrl + city + unitsImperial + "&appid=" + apiKey;
@@ -92,7 +88,7 @@ var getWeather = function (city, typeofUrl) {
                 );
               });
               console.log("results", results);
-              uviElement.textContent = results[0].uvi;
+              uviElement.textContent = "UV Index: " + results[0].uvi;
               const cardResults = [1, 2, 3, 4, 5].map((item) => results[item]);
               console.log(cardResults);
               cardResults.forEach((obj) => {
@@ -102,7 +98,7 @@ var getWeather = function (city, typeofUrl) {
                 const humidityfcstElement = document.createElement("p");
                 const cardElement = document.createElement("div");
                 // rank.setAttribute("scope", "row");
-                datefcstElement.innerHTML = "Date: " + parseDate(obj.dt);
+                datefcstElement.innerHTML = parseDate(obj.dt);
                 tempfcstElement.innerHTML = "Temp: " + obj.temp.day + "°F";
                 windfcstElement.innerHTML = "Wind: " + obj.wind_speed + " MPH";
                 humidityfcstElement.innerHTML =
@@ -129,6 +125,7 @@ const submitFunction = function (event) {
   event.preventDefault();
   let searchedCity = searchedElement.value;
   cardElements.textContent = "";
+  main.classList.remove("hidden");
   results = [];
   // push each score object to the array and save to local storage
   searchHistory.push(searchedCity);
