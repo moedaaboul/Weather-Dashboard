@@ -153,3 +153,8 @@ button {
 img {
   width: 4rem;
 }
+
+.history-container {
+  display: flex;
+  flex-direction: column;
+}

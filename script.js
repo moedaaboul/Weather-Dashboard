@@ -11,6 +11,8 @@ const cardElements = document.querySelector(".cards");
 const searchedElement = document.querySelector(".searchCity");
 const submitButton = document.querySelector(".submit");
 const main = document.querySelector("main");
+const aside = document.querySelector("aside");
+const historyContainer = document.querySelector(".history-container");
 
 const apiKey = "8fcf15f1446775617fe9577e790f0250";
 const pathName = "https://api.openweathermap.org/data/2.5/";
@@ -35,12 +37,13 @@ let cityName;
 let currentDate;
 let currentTemp;
 let variable2;
-let results = [];
+// let results = [];
 
 const allowed = ["dt", "humidity", "temp", "uvi", "wind_speed", "weather"];
 
-var getWeather = function (city, typeofUrl) {
-  var apiUrl = pathName + typeofUrl + city + unitsImperial + "&appid=" + apiKey;
+var getWeather = function (city) {
+  var apiUrl =
+    pathName + "weather?q=" + city + unitsImperial + "&appid=" + apiKey;
   // var apiUrl = `${pathName}${typeofUrl}${city}${unitsImperial}&appid=${apiKey}`
 
   fetch(apiUrl)
@@ -51,7 +54,6 @@ var getWeather = function (city, typeofUrl) {
           .json()
           .then(function (data) {
             console.log(data);
-            variable = data;
             lon = data.coord.lon;
             lat = data.coord.lat;
             currentWind = "Wind: " + data.wind.speed + " MPH";
@@ -77,8 +79,8 @@ var getWeather = function (city, typeofUrl) {
           .then((response) =>
             response.json().then(function (data2) {
               console.log(data2);
-              variable2 = data2.daily;
-              variable2.forEach((e, i) => {
+              let results = [];
+              data2.daily.forEach((e, i) => {
                 results.push(
                   Object.keys(e)
                     .filter((key) => allowed.includes(key))
@@ -92,6 +94,14 @@ var getWeather = function (city, typeofUrl) {
               uviElement.textContent = "UV Index: " + results[0].uvi;
               const cardResults = [1, 2, 3, 4, 5].map((item) => results[item]);
               console.log(cardResults);
+              historyContainer.innerHTML = "";
+              /// add loop here for the elements
+              searchHistory.forEach((e) => {
+                const searchedElement = document.createElement("button");
+                searchedElement.textContent = e;
+                searchedElement.addEventListener("click", submitHistoryItem);
+                historyContainer.appendChild(searchedElement);
+              });
               cardResults.forEach((obj) => {
                 const datefcstElement = document.createElement("p");
                 const tempfcstElement = document.createElement("p");
@@ -132,11 +142,36 @@ const submitFunction = function (event) {
   let searchedCity = searchedElement.value;
   cardElements.textContent = "";
   main.classList.remove("hidden");
-  results = [];
+  // results = [];
   // push each score object to the array and save to local storage
-  searchHistory.push(searchedCity);
+  if (!searchHistory.includes(searchedCity)) {
+    searchHistory.push(searchedCity);
+  }
   localStorage.setItem("storedHistory", JSON.stringify(searchHistory));
   getWeather(searchedCity, currentUrl);
 };
+
+const submitHistoryItem = function (event) {
+  let selectedElement = event.target;
+  let searchedCity = selectedElement.textContent;
+  cardElements.textContent = "";
+  historyContainer.innerHTML = "";
+  main.classList.remove("hidden");
+  // push each score object to the array and save to local storage
+  getWeather(searchedCity, currentUrl);
+};
+
+// const renderLocalCities = function () {
+//   //if user already has memories in local, get that array and push into it.
+//   //else create a blank array and add the memory.
+
+//   // push each score object to the array and save to local storage
+//   history.forEach((e) => {
+//     const searchedElement = document.createElement("button");
+//     searchedElement.textContent = e;
+//     searchedElement.addEventListener("click", submitHistoryItem);
+//     historyContainer.appendChild(searchedElement);
+//   });
+// };
 
 submitButton.addEventListener("click", submitFunction);
