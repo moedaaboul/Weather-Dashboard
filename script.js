@@ -161,17 +161,20 @@ const submitHistoryItem = function (event) {
   getWeather(searchedCity, currentUrl);
 };
 
-// const renderLocalCities = function () {
-//   //if user already has memories in local, get that array and push into it.
-//   //else create a blank array and add the memory.
+const renderLocalCities = function () {
+  //if user already has memories in local, get that array and push into it.
+  //else create a blank array and add the memory.
+  const localSchedule = JSON.parse(localStorage.getItem("storedHistory"));
+  searchHistory = localSchedule;
+  // push each score object to the array and save to local storage
+  searchHistory.forEach((e) => {
+    const searchedElement = document.createElement("button");
+    searchedElement.textContent = e;
+    searchedElement.addEventListener("click", submitHistoryItem);
+    historyContainer.appendChild(searchedElement);
+  });
+};
 
-//   // push each score object to the array and save to local storage
-//   history.forEach((e) => {
-//     const searchedElement = document.createElement("button");
-//     searchedElement.textContent = e;
-//     searchedElement.addEventListener("click", submitHistoryItem);
-//     historyContainer.appendChild(searchedElement);
-//   });
-// };
+renderLocalCities();
 
 submitButton.addEventListener("click", submitFunction);
