@@ -158,3 +158,15 @@ img {
   display: flex;
   flex-direction: column;
 }
+
+.history-container button {
+  background-color: grey;
+  padding: 0 1rem;
+}
+
+.uvi-color {
+  margin-left: 0.25rem;
+  padding: 0.25rem;
+  color: white;
+  text-align: center;
+}

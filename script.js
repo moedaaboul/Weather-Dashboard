@@ -11,7 +11,6 @@ const cardElements = document.querySelector(".cards");
 const searchedElement = document.querySelector(".searchCity");
 const submitButton = document.querySelector(".submit");
 const main = document.querySelector("main");
-const aside = document.querySelector("aside");
 const historyContainer = document.querySelector(".history-container");
 
 const apiKey = "8fcf15f1446775617fe9577e790f0250";
@@ -23,27 +22,18 @@ const onecallUrl = (latitude, longitude) => {
 const currentUrl = "weather?q=";
 
 // https://openweathermap.org/current
-const unitsImperial = "&units=imperial";
+// const unitsImperial = "&units=imperial";
 
 const parseDate = (unixDate) => moment.unix(unixDate).format("MM/DD/YYYY");
 
 let variable = [];
-let lon;
-let lat;
 let searchHistory = [];
-let currentWind;
-let currentHumidity;
-let cityName;
-let currentDate;
-let currentTemp;
-let variable2;
-// let results = [];
 
 const allowed = ["dt", "humidity", "temp", "uvi", "wind_speed", "weather"];
 
 var getWeather = function (city) {
   var apiUrl =
-    pathName + "weather?q=" + city + unitsImperial + "&appid=" + apiKey;
+    pathName + "weather?q=" + city + "&units=imperial" + "&appid=" + apiKey;
   // var apiUrl = `${pathName}${typeofUrl}${city}${unitsImperial}&appid=${apiKey}`
 
   fetch(apiUrl)
@@ -54,16 +44,16 @@ var getWeather = function (city) {
           .json()
           .then(function (data) {
             console.log(data);
-            lon = data.coord.lon;
-            lat = data.coord.lat;
-            currentWind = "Wind: " + data.wind.speed + " MPH";
-            currentHumidity = "Humidity: " + data.main.humidity + " %";
-            cityName = data.name;
+            let lon = data.coord.lon;
+            let lat = data.coord.lat;
+            let currentWind = "Wind: " + data.wind.speed + " MPH";
+            let currentHumidity = "Humidity: " + data.main.humidity + " %";
+            let cityName = data.name;
             currentDateUnix = data.dt;
             console.log(currentDateUnix);
-            currentDate = parseDate(currentDateUnix);
+            let currentDate = parseDate(currentDateUnix);
             console.log(currentDate);
-            currentTemp = "Temp: " + data.main.temp + "°F";
+            let currentTemp = "Temp: " + data.main.temp + "°F";
             tempElement.textContent = currentTemp;
             windElement.textContent = currentWind;
             humiditiyElement.textContent = currentHumidity;
@@ -71,7 +61,7 @@ var getWeather = function (city) {
             forecastUrl =
               pathName +
               onecallUrl(lat, lon) +
-              unitsImperial +
+              "&units=imperial" +
               "&appid=" +
               apiKey;
             return fetch(forecastUrl);
@@ -91,7 +81,22 @@ var getWeather = function (city) {
                 );
               });
               console.log("results", results);
-              uviElement.textContent = "UV Index: " + results[0].uvi;
+              // const uviSpanElement = document.createElement("span");
+              let uvi = results[0].uvi;
+              uviElement.innerHTML = `UV Index: <span class="uvi-color">${uvi}</span>`;
+              const uviColor = document.querySelector(".uvi-color");
+              if (uvi < 3) {
+                uviColor.style.backgroundColor = "green";
+              } else if (uvi >= 3 && uvi < 6) {
+                uviColor.style.backgroundColor = "yellow";
+                uviColor.style.color = "black";
+              } else if (uvi >= 6 && uvi < 8) {
+                uviColor.style.backgroundColor = "brown";
+              } else if (uvi >= 8 && uvi < 11) {
+                uviColor.style.backgroundColor = "red";
+              } else {
+                uviColor.style.backgroundColor = "#8b0000";
+              }
               const cardResults = [1, 2, 3, 4, 5].map((item) => results[item]);
               console.log(cardResults);
               historyContainer.innerHTML = "";
@@ -164,7 +169,7 @@ const submitHistoryItem = function (event) {
 const renderLocalCities = function () {
   //if user already has memories in local, get that array and push into it.
   //else create a blank array and add the memory.
-  const localSchedule = JSON.parse(localStorage.getItem("storedHistory"));
+  const localSchedule = JSON.parse(localStorage.getItem("storedHistory")) || [];
   searchHistory = localSchedule;
   // push each score object to the array and save to local storage
   searchHistory.forEach((e) => {
