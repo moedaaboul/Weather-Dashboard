@@ -113,10 +113,10 @@ footer {
   width: 90%;
 }
 
-button {
-  padding: 0.25rem;
+/* button {
+  padding: 0.1rem;
   margin-top: 0.25rem;
-}
+} */
 
 input {
   padding: 0.25rem;
@@ -157,6 +157,9 @@ button {
   background-color: #707ad9;
   border-style: none;
   color: white;
+  border-radius: 0.3em;
+  padding: 0.3rem;
+  margin-top: 0.25rem;
 }
 
 img {
@@ -170,7 +173,7 @@ img {
 
 .history-container button {
   background-color: grey;
-  padding: 0 1rem;
+  /* padding: 0 1rem; */
 }
 
 .uvi-color {

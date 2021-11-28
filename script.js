@@ -1,19 +1,18 @@
 // https://openweathermap.org/current
 // https://openweathermap.org/weather-data
 
+import { colorUvi } from "./global.js";
+import { parseDate } from "./global.js";
+import { onecallUrl } from "./global.js";
+
 const todaySection = document.querySelector(".today");
 const forecastElements = document.querySelector(".forecast");
 const searchedElement = document.querySelector(".searchCity");
 const submitButton = document.querySelector(".submit");
 const main = document.querySelector("main");
 const historyContainer = document.querySelector(".history-container");
-
 const apiKey = "8fcf15f1446775617fe9577e790f0250";
 const pathName = "https://api.openweathermap.org/data/2.5/";
-
-const onecallUrl = (latitude, longitude) => {
-  return `onecall?lat=${latitude}&lon=${longitude}&exclude=current,minutely,hourly`;
-};
 
 let displayCities = () => {
   searchHistory.forEach((e) => {
@@ -23,23 +22,6 @@ let displayCities = () => {
     historyContainer.appendChild(searchedElement);
   });
 };
-
-function colorUvi(uvi) {
-  if (uvi < 3) {
-    document.querySelector(".uvi-color").style.backgroundColor = "green";
-  } else if (uvi >= 3 && uvi < 6) {
-    document.querySelector(".uvi-color").style.backgroundColor = "yellow";
-    document.querySelector(".uvi-color").style.color = "black";
-  } else if (uvi >= 6 && uvi < 8) {
-    document.querySelector(".uvi-color").style.backgroundColor = "brown";
-  } else if (uvi >= 8 && uvi < 11) {
-    document.querySelector(".uvi-color").style.backgroundColor = "red";
-  } else {
-    document.querySelector(".uvi-color").style.backgroundColor = "#8b0000";
-  }
-}
-
-const parseDate = (unixDate) => moment.unix(unixDate).format("MM/DD/YYYY"); // translates unixData to standard format
 
 let searchHistory = [];
 
@@ -66,7 +48,7 @@ var getWeather = function (city) {
             <p class="wind">Wind: ${data.wind.speed} MPH</p>
             <p class="humidity">Humidity: ${data.main.humidity} %</p>
             <p class="uvi">UVI Index: <span class="uvi-color"></span></p>`;
-            forecastUrl = `${pathName}${onecallUrl(
+            let forecastUrl = `${pathName}${onecallUrl(
               lat,
               lon
             )}&units=imperial&appid=${apiKey}`;
@@ -102,6 +84,8 @@ var getWeather = function (city) {
             })
           );
       } else {
+        searchHistory.shift();
+        localStorage.setItem("storedHistory", JSON.stringify(searchHistory));
         alert("Error: " + response.statusText);
       }
     })
