@@ -57,12 +57,10 @@ var getWeather = function (city) {
             <p class="wind">Wind: ${data.wind.speed} MPH</p>
             <p class="humidity">Humidity: ${data.main.humidity} %</p>
             <p class="uvi">UVI Index: <span class="uvi-color"></span></p>`;
-            forecastUrl =
-              pathName +
-              onecallUrl(lat, lon) +
-              "&units=imperial" +
-              "&appid=" +
-              apiKey;
+            forecastUrl = `${pathName}${onecallUrl(
+              lat,
+              lon
+            )}&units=imperial&appid=${apiKey}`;
             return fetch(forecastUrl);
           })
           .then((response) =>
