@@ -87,6 +87,7 @@ const getWeather = function (city) {
       } else {
         searchHistory.shift();
         localStorage.setItem("storedHistory", JSON.stringify(searchHistory));
+        main.classList.add("hidden");
         alert("Error: " + response.statusText);
       }
     })
