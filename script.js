@@ -1,4 +1,4 @@
-// Current weather app
+// https://openweathermap.org/current
 // https://openweathermap.org/weather-data
 
 const todaySection = document.querySelector(".today");
@@ -15,8 +15,6 @@ const onecallUrl = (latitude, longitude) => {
   return `onecall?lat=${latitude}&lon=${longitude}&exclude=current,minutely,hourly`;
 };
 
-// https://openweathermap.org/current
-
 let displayCities = () => {
   searchHistory.forEach((e) => {
     const searchedElement = document.createElement("button");
@@ -26,7 +24,22 @@ let displayCities = () => {
   });
 };
 
-const parseDate = (unixDate) => moment.unix(unixDate).format("MM/DD/YYYY");
+function colorUvi(uvi) {
+  if (uvi < 3) {
+    document.querySelector(".uvi-color").style.backgroundColor = "green";
+  } else if (uvi >= 3 && uvi < 6) {
+    document.querySelector(".uvi-color").style.backgroundColor = "yellow";
+    document.querySelector(".uvi-color").style.color = "black";
+  } else if (uvi >= 6 && uvi < 8) {
+    document.querySelector(".uvi-color").style.backgroundColor = "brown";
+  } else if (uvi >= 8 && uvi < 11) {
+    document.querySelector(".uvi-color").style.backgroundColor = "red";
+  } else {
+    document.querySelector(".uvi-color").style.backgroundColor = "#8b0000";
+  }
+}
+
+const parseDate = (unixDate) => moment.unix(unixDate).format("MM/DD/YYYY"); // translates unixData to standard format
 
 let searchHistory = [];
 
@@ -43,12 +56,12 @@ var getWeather = function (city) {
             let lon = data.coord.lon;
             let lat = data.coord.lat;
             let cityName = data.name;
-            currentDateUnix = data.dt;
-            console.log(currentDateUnix);
-            let currentDate = parseDate(currentDateUnix);
-            console.log(currentDate);
             todaySection.innerHTML = `
-            <h2 class="todayWeather">${cityName} (${currentDate})<span><img src="http://openweathermap.org/img/w/${data.weather[0].icon}.png"></img></span></h2>
+            <h2 class="todayWeather">${cityName} (${parseDate(
+              data.dt
+            )})<span><img src="http://openweathermap.org/img/w/${
+              data.weather[0].icon
+            }.png"></img></span></h2>
             <p class="temp">Temp: ${data.main.temp} °F</p>
             <p class="wind">Wind: ${data.wind.speed} MPH</p>
             <p class="humidity">Humidity: ${data.main.humidity} %</p>
@@ -62,24 +75,14 @@ var getWeather = function (city) {
           .then((response) =>
             response.json().then(function (data2) {
               console.log(data2);
-              let results = data2.daily;
-              console.log("results", results);
-              let uvi = results[0].uvi;
-              const uviColor = document.querySelector(".uvi-color");
-              uviColor.innerHTML = uvi;
-              if (uvi < 3) {
-                uviColor.style.backgroundColor = "green";
-              } else if (uvi >= 3 && uvi < 6) {
-                uviColor.style.backgroundColor = "yellow";
-                uviColor.style.color = "black";
-              } else if (uvi >= 6 && uvi < 8) {
-                uviColor.style.backgroundColor = "brown";
-              } else if (uvi >= 8 && uvi < 11) {
-                uviColor.style.backgroundColor = "red";
-              } else {
-                uviColor.style.backgroundColor = "#8b0000";
-              }
-              const cardResults = [1, 2, 3, 4, 5].map((item) => results[item]);
+              console.log("results", data2.daily);
+              let uvi = data2.daily[0].uvi;
+              document.querySelector(".uvi-color").innerHTML = uvi;
+              colorUvi(uvi); // colors uvi based on value
+              //filters fetched data for days 1 - 5 (i.e. forecast days)
+              const cardResults = [1, 2, 3, 4, 5].map(
+                (item) => data2.daily[item]
+              );
               console.log(cardResults);
               historyContainer.innerHTML = ""; // empties history container before rendering updated list
               displayCities(); // renders searched cities from local storage
