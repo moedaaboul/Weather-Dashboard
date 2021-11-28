@@ -1,13 +1,8 @@
 // Current weather app
-//IMPORTANT DOCS ===============
 // https://openweathermap.org/weather-data
 
-const tempElement = document.querySelector(".temp");
-const windElement = document.querySelector(".wind");
-const humiditiyElement = document.querySelector(".humidity");
-const uviElement = document.querySelector(".uvi");
-const todayElement = document.querySelector(".todayWeather");
-const cardElements = document.querySelector(".cards");
+const todaySection = document.querySelector(".today");
+const forecastElements = document.querySelector(".forecast");
 const searchedElement = document.querySelector(".searchCity");
 const submitButton = document.querySelector(".submit");
 const main = document.querySelector("main");
@@ -22,7 +17,6 @@ const onecallUrl = (latitude, longitude) => {
 const currentUrl = "weather?q=";
 
 // https://openweathermap.org/current
-// const unitsImperial = "&units=imperial";
 
 let displayCities = () => {
   searchHistory.forEach((e) => {
@@ -48,25 +42,23 @@ var getWeather = function (city) {
   fetch(apiUrl)
     .then(function (response) {
       if (response.ok) {
-        // searchHistory.push(city);
         response
           .json()
           .then(function (data) {
             console.log(data);
             let lon = data.coord.lon;
             let lat = data.coord.lat;
-            let currentWind = "Wind: " + data.wind.speed + " MPH";
-            let currentHumidity = "Humidity: " + data.main.humidity + " %";
             let cityName = data.name;
             currentDateUnix = data.dt;
             console.log(currentDateUnix);
             let currentDate = parseDate(currentDateUnix);
             console.log(currentDate);
-            let currentTemp = "Temp: " + data.main.temp + "°F";
-            tempElement.textContent = currentTemp;
-            windElement.textContent = currentWind;
-            humiditiyElement.textContent = currentHumidity;
-            todayElement.textContent = cityName + " " + "(" + currentDate + ")";
+            todaySection.innerHTML = `
+            <h2 class="todayWeather">${cityName} (${currentDate})</h2>
+            <p class="temp">Temp: ${data.main.temp} °F</p>
+            <p class="wind">Wind: ${data.wind.speed} MPH</p>
+            <p class="humidity">Humidity: ${data.main.humidity} %</p>
+            <p class="uvi">UVI Index: <span class="uvi-color"></span></p>`;
             forecastUrl =
               pathName +
               onecallUrl(lat, lon) +
@@ -92,8 +84,8 @@ var getWeather = function (city) {
               console.log("results", results);
               // const uviSpanElement = document.createElement("span");
               let uvi = results[0].uvi;
-              uviElement.innerHTML = `UV Index: <span class="uvi-color">${uvi}</span>`;
               const uviColor = document.querySelector(".uvi-color");
+              uviColor.innerHTML = uvi;
               if (uvi < 3) {
                 uviColor.style.backgroundColor = "green";
               } else if (uvi >= 3 && uvi < 6) {
@@ -111,30 +103,22 @@ var getWeather = function (city) {
               historyContainer.innerHTML = "";
               /// add loop here for the elements
               displayCities();
-              cardResults.forEach((obj) => {
-                const datefcstElement = document.createElement("p");
-                const tempfcstElement = document.createElement("p");
-                const iconElement = document.createElement("img");
-                const windfcstElement = document.createElement("p");
-                const humidityfcstElement = document.createElement("p");
-                const cardElement = document.createElement("div");
-                // rank.setAttribute("scope", "row");
-                datefcstElement.innerHTML = parseDate(obj.dt);
-                console.log(obj);
-                console.log(obj.weather[0].icon);
-                iconElement.src = `http://openweathermap.org/img/w/${obj.weather[0].icon}.png`;
-                tempfcstElement.innerHTML = "Temp: " + obj.temp.day + "°F";
-                windfcstElement.innerHTML = "Wind: " + obj.wind_speed + " MPH";
-                humidityfcstElement.innerHTML =
-                  "Humidity: " + obj.humidity + " %";
-                cardElement.classList.add("card");
-                cardElement.appendChild(datefcstElement);
-                cardElement.appendChild(iconElement);
-                cardElement.appendChild(tempfcstElement);
-                cardElement.appendChild(windfcstElement);
-                cardElement.appendChild(humidityfcstElement);
-                cardElements.appendChild(cardElement);
-              });
+              // console.log(cardElements);
+              forecastElements.innerHTML = `<h3>5-Day Forecast</h3><section class="cards">${cardResults
+                .map((obj) => {
+                  return `<div class="card">
+                    <p>${parseDate(obj.dt)}</p>
+                    <p>Temp: ${obj.temp.day} °F</p>
+                    <img
+                      src="http://openweathermap.org/img/w/${
+                        obj.weather[0].icon
+                      }.png"
+                    ></img>
+                    <p>Wind: ${obj.wind_speed} MPH</p>
+                    <p>Humidity: ${obj.humidity} %</p>
+                  </div>`;
+                })
+                .join("")}</section>`;
             })
           );
       } else {
@@ -149,10 +133,7 @@ var getWeather = function (city) {
 const submitFunction = function (event) {
   event.preventDefault();
   let searchedCity = searchedElement.value;
-  cardElements.textContent = "";
-  main.classList.remove("hidden");
-  // results = [];
-  // push each score object to the array and save to local storage
+  main.classList.remove("hidden"); // push each score object to the array using unshift and save to local storage
   if (!searchHistory.includes(searchedCity)) {
     searchHistory.unshift(searchedCity);
   }
@@ -161,21 +142,19 @@ const submitFunction = function (event) {
 };
 
 const submitHistoryItem = function (event) {
+  event.preventDefault();
   let selectedElement = event.target;
   let searchedCity = selectedElement.textContent;
-  cardElements.textContent = "";
+  forecastElements.textContent = "";
   historyContainer.innerHTML = "";
   main.classList.remove("hidden");
-  // push each score object to the array and save to local storage
   getWeather(searchedCity, currentUrl);
 };
 
 const renderLocalCities = function () {
-  //if user already has memories in local, get that array and push into it.
-  //else create a blank array and add the memory.
+  //if user already has memories in local, else set empty
   const localSchedule = JSON.parse(localStorage.getItem("storedHistory")) || [];
-  searchHistory = localSchedule;
-  // push each score object to the array and save to local storage
+  searchHistory = localSchedule; // and add the memory.
   displayCities();
 };
 
