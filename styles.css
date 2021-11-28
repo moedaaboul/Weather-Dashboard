@@ -1,74 +1,20 @@
 @import url("https://fonts.googleapis.com/css2?family=Merriweather+Sans:wght@400;500;700&display=swap");
 
+/* Resets and general styling */
+
 * {
   margin: 0;
   padding: 0;
 }
 
-aside {
-  display: flex;
-  flex-flow: column;
-  align-items: stretch;
-}
-
-body > div {
-  display: flex;
-}
-
-aside > form > div {
-  display: flex;
-  flex-direction: column;
-}
-
-.today {
-  border: 1px solid;
-  height: auto;
-  width: 90%;
-  padding-top: 0.25rem;
-  padding-bottom: 1rem;
-  padding-left: 0.25rem;
-}
-
-.today > p {
-  padding-top: 1rem;
-}
-
-.card > * {
-  padding-left: 0.25rem;
-}
-
-.card:first-of-type {
-  margin-left: 0;
-}
-
-.card:last-of-type {
-  margin-right: 0;
-}
-
-label {
-  font-size: 1.25rem;
-}
-
-main {
-  display: flex;
-  flex-flow: column wrap;
-  justify-content: space-around;
-  align-items: stretch;
-  width: 100%;
-}
-
-.card {
-  background: #512941;
-  margin: 1rem;
-  width: 100%;
-  height: auto;
+.header {
+  background: linear-gradient(-90deg, #171e55, #525a9f);
   color: white;
-  font-family: "Times New Roman", sans-serif;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-around;
-  font-size: 1rem;
-  margin-right: 0.25rem;
+  font-family: "Merriweather Sans", sans-serif;
+}
+
+.hidden {
+  display: none;
 }
 
 section {
@@ -83,6 +29,10 @@ h1 {
   text-align: center;
 }
 
+img {
+  width: 4rem;
+}
+
 header,
 aside,
 main,
@@ -90,6 +40,115 @@ footer {
   padding: 20px;
 }
 
+/* Set column row to direct div sibling of body so aside elements and main are displayed in row direction */
+body > div {
+  display: flex;
+}
+
+/* Set column flex to aside elements and style Aside section*/
+aside {
+  display: flex;
+  flex-flow: column;
+  align-items: stretch;
+}
+
+label {
+  font-size: 1.25rem;
+}
+
+input {
+  padding: 0.25rem;
+  margin-top: 0.25rem;
+}
+
+button {
+  background-color: #707ad9;
+  border-style: none;
+  color: white;
+  border-radius: 0.3em;
+  padding: 0.3rem;
+  margin-top: 0.25rem;
+}
+
+/* Set column direction flex to form elements */
+aside > form > div {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Styles searched city button */
+.history-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.history-container button {
+  background-color: grey;
+}
+
+/* Styles main container that hosts both today and forecast containers */
+main {
+  display: flex;
+  flex-flow: column wrap;
+  justify-content: space-around;
+  align-items: stretch;
+  width: 100%;
+}
+
+/* Style current day weather container */
+.today {
+  border: 1px solid;
+  height: auto;
+  width: 90%;
+  padding-top: 0.25rem;
+  padding-bottom: 1rem;
+  padding-left: 0.25rem;
+}
+
+.today > p {
+  padding-top: 1rem;
+}
+
+.uvi-color {
+  margin-left: 0.25rem;
+  padding: 0.25rem;
+  color: white;
+  text-align: center;
+}
+
+.todayWeather img {
+  width: 2rem;
+}
+
+/* Style forecast forecast card elements */
+.card > * {
+  padding-left: 0.25rem;
+}
+
+.card:first-of-type {
+  margin-left: 0;
+}
+
+.card:last-of-type {
+  margin-right: 0;
+}
+
+/* Sets flex column direction to each of the 5 card elements (i.e. p tags) */
+.card {
+  background: #512941;
+  margin: 1rem;
+  width: 100%;
+  height: auto;
+  color: white;
+  font-family: "Times New Roman", sans-serif;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  font-size: 1rem;
+  margin-right: 0.25rem;
+}
+
+/* Styles card container to row direction for the 5 day forecast cards */
 .cards {
   display: flex;
   justify-content: space-around;
@@ -109,54 +168,7 @@ footer {
   width: 90%;
 }
 
-input {
-  padding: 0.25rem;
-  margin-top: 0.25rem;
-}
-
-.hidden {
-  display: none;
-}
-
-.header {
-  background: linear-gradient(-90deg, #171e55, #525a9f);
-  color: white;
-  font-family: "Merriweather Sans", sans-serif;
-}
-
-button {
-  background-color: #707ad9;
-  border-style: none;
-  color: white;
-  border-radius: 0.3em;
-  padding: 0.3rem;
-  margin-top: 0.25rem;
-}
-
-img {
-  width: 4rem;
-}
-
-.history-container {
-  display: flex;
-  flex-direction: column;
-}
-
-.history-container button {
-  background-color: grey;
-}
-
-.uvi-color {
-  margin-left: 0.25rem;
-  padding: 0.25rem;
-  color: white;
-  text-align: center;
-}
-
-.todayWeather img {
-  width: 2rem;
-}
-
+/* Media queries to enhance responsiveness */
 @media screen and (max-width: 540px) {
   main {
     align-content: center;
@@ -188,10 +200,7 @@ img {
     padding: 0.25rem;
   }
 
-  .forecast {
-    width: 95%;
-  }
-
+  .forecast,
   .today {
     width: 95%;
   }
