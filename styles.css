@@ -9,7 +9,7 @@ aside {
   display: flex;
   flex-flow: column;
   align-items: stretch;
-  width: 18%;
+  /* width: 18%; */
 }
 
 body > div {
@@ -62,6 +62,7 @@ main {
   background: #512941;
   margin: 1rem;
   width: 100%;
+  height: auto;
   color: white;
   font-family: "Times New Roman", sans-serif;
   display: flex;
@@ -75,7 +76,7 @@ section {
   width: 45%;
   margin: 5px;
   position: relative;
-  height: 215px;
+  height: auto;
 }
 
 h1 {
@@ -141,18 +142,6 @@ header {
   /* animation: gradient 15s ease infinite; */
 }
 
-/* @keyframes header {
-  0% {
-    background-position: 0% 50%;
-  }
-  50% {
-    background-position: 100% 50%;
-  }
-  100% {
-    background-position: 0% 50%;
-  }
-} */
-
 button {
   background-color: #707ad9;
   border-style: none;
@@ -185,4 +174,44 @@ img {
 
 .todayWeather img {
   width: 2rem;
+}
+
+@media screen and (max-width: 500px) {
+  .cards {
+    flex-direction: column;
+  }
+
+  body > div {
+    display: flex;
+    flex-direction: column;
+  }
+  .card {
+    margin-left: 0;
+  }
+
+  .aside {
+    padding: auto;
+    margin: auto;
+  }
+}
+
+@media screen and (min-width: 750px) {
+  .cards {
+    height: auto;
+  }
+  .card p:first-of-type {
+    font-size: 1.1rem;
+  }
+  .card p {
+    padding: 0.25rem;
+  }
+}
+
+@media screen and (min-width: 1500px) {
+  .cards {
+    height: 300px;
+  }
+  .card p:first-of-type {
+    font-size: 1.25rem;
+  }
 }

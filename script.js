@@ -10,11 +10,14 @@ const forecastElements = document.querySelector(".forecast");
 const searchedElement = document.querySelector(".searchCity");
 const submitButton = document.querySelector(".submit");
 const main = document.querySelector("main");
+const clearElement = document.querySelector(".clear");
 const historyContainer = document.querySelector(".history-container");
 const apiKey = "8fcf15f1446775617fe9577e790f0250";
 const pathName = "https://api.openweathermap.org/data/2.5/";
 
-let displayCities = () => {
+let searchHistory = [];
+
+const displayCities = () => {
   searchHistory.forEach((e) => {
     const searchedElement = document.createElement("button");
     searchedElement.textContent = e;
@@ -23,9 +26,7 @@ let displayCities = () => {
   });
 };
 
-let searchHistory = [];
-
-var getWeather = function (city) {
+const getWeather = function (city) {
   var apiUrl = `${pathName}weather?q=${city}&units=imperial&appid=${apiKey}`;
 
   fetch(apiUrl)
@@ -35,9 +36,9 @@ var getWeather = function (city) {
           .json()
           .then(function (data) {
             console.log(data);
-            let lon = data.coord.lon;
-            let lat = data.coord.lat;
-            let cityName = data.name;
+            const lon = data.coord.lon;
+            const lat = data.coord.lat;
+            const cityName = data.name;
             todaySection.innerHTML = `
             <h2 class="todayWeather">${cityName} (${parseDate(
               data.dt
@@ -48,7 +49,7 @@ var getWeather = function (city) {
             <p class="wind">Wind: ${data.wind.speed} MPH</p>
             <p class="humidity">Humidity: ${data.main.humidity} %</p>
             <p class="uvi">UVI Index: <span class="uvi-color"></span></p>`;
-            let forecastUrl = `${pathName}${onecallUrl(
+            const forecastUrl = `${pathName}${onecallUrl(
               lat,
               lon
             )}&units=imperial&appid=${apiKey}`;
@@ -58,7 +59,7 @@ var getWeather = function (city) {
             response.json().then(function (data2) {
               console.log(data2);
               console.log("results", data2.daily);
-              let uvi = data2.daily[0].uvi;
+              const uvi = data2.daily[0].uvi;
               document.querySelector(".uvi-color").innerHTML = uvi;
               colorUvi(uvi); // colors uvi based on value
               //filters fetched data for days 1 - 5 (i.e. forecast days)
@@ -107,8 +108,8 @@ const submitFunction = function (event) {
 
 const submitHistoryItem = function (event) {
   event.preventDefault();
-  let selectedElement = event.target;
-  let searchedCity = selectedElement.textContent;
+  const selectedElement = event.target;
+  const searchedCity = selectedElement.textContent;
   forecastElements.textContent = "";
   historyContainer.innerHTML = "";
   main.classList.remove("hidden");
@@ -121,6 +122,10 @@ const renderLocalCities = function () {
   searchHistory = localSchedule; // and add the memory.
   displayCities();
 };
+
+clearElement.addEventListener("click", function () {
+  window.localStorage.removeItem("storedHistory");
+});
 
 renderLocalCities();
 
