@@ -176,7 +176,11 @@ img {
   width: 2rem;
 }
 
-@media screen and (max-width: 500px) {
+@media screen and (max-width: 540px) {
+  .view {
+    width: 400px;
+  }
+
   .cards {
     flex-direction: column;
   }
