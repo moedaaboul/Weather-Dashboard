@@ -35,9 +35,7 @@ let searchHistory = [];
 const allowed = ["dt", "humidity", "temp", "uvi", "wind_speed", "weather"];
 
 var getWeather = function (city) {
-  var apiUrl =
-    pathName + "weather?q=" + city + "&units=imperial" + "&appid=" + apiKey;
-  // var apiUrl = `${pathName}${typeofUrl}${city}${unitsImperial}&appid=${apiKey}`
+  var apiUrl = `${pathName}weather?q=${city}&units=imperial&appid=${apiKey}`;
 
   fetch(apiUrl)
     .then(function (response) {
