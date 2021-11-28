@@ -37,7 +37,7 @@ Goal is to build a weather app that uses the OpenWeather One Call API to retriev
 
 The following image depicts the functionality expected of the webpage:
 
-![A user clicks on slots on the color-coded calendar and edits the events.](./images/demo.gif)
+![A user clicks on slots on the color-coded calendar and edits the events.](./Images/demo.gif)
 
 ## Setup
 
