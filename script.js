@@ -24,6 +24,15 @@ const currentUrl = "weather?q=";
 // https://openweathermap.org/current
 // const unitsImperial = "&units=imperial";
 
+let displayCities = () => {
+  searchHistory.forEach((e) => {
+    const searchedElement = document.createElement("button");
+    searchedElement.textContent = e;
+    searchedElement.addEventListener("click", submitHistoryItem);
+    historyContainer.appendChild(searchedElement);
+  });
+};
+
 const parseDate = (unixDate) => moment.unix(unixDate).format("MM/DD/YYYY");
 
 let variable = [];
@@ -101,12 +110,7 @@ var getWeather = function (city) {
               console.log(cardResults);
               historyContainer.innerHTML = "";
               /// add loop here for the elements
-              searchHistory.forEach((e) => {
-                const searchedElement = document.createElement("button");
-                searchedElement.textContent = e;
-                searchedElement.addEventListener("click", submitHistoryItem);
-                historyContainer.appendChild(searchedElement);
-              });
+              displayCities();
               cardResults.forEach((obj) => {
                 const datefcstElement = document.createElement("p");
                 const tempfcstElement = document.createElement("p");
@@ -172,12 +176,7 @@ const renderLocalCities = function () {
   const localSchedule = JSON.parse(localStorage.getItem("storedHistory")) || [];
   searchHistory = localSchedule;
   // push each score object to the array and save to local storage
-  searchHistory.forEach((e) => {
-    const searchedElement = document.createElement("button");
-    searchedElement.textContent = e;
-    searchedElement.addEventListener("click", submitHistoryItem);
-    historyContainer.appendChild(searchedElement);
-  });
+  displayCities();
 };
 
 renderLocalCities();
