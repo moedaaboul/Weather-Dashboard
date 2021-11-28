@@ -150,7 +150,7 @@ const submitFunction = function (event) {
   // results = [];
   // push each score object to the array and save to local storage
   if (!searchHistory.includes(searchedCity)) {
-    searchHistory.push(searchedCity);
+    searchHistory.unshift(searchedCity);
   }
   localStorage.setItem("storedHistory", JSON.stringify(searchHistory));
   getWeather(searchedCity, currentUrl);

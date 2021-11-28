@@ -38,10 +38,6 @@ aside > form > div {
   padding-left: 0.25rem;
 }
 
-.card {
-  margin: 1rem;
-}
-
 .card:first-of-type {
   margin-left: 0;
 }
@@ -64,6 +60,7 @@ main {
 
 .card {
   background: #512941;
+  margin: 1rem;
   width: 100%;
   color: white;
   font-family: "Times New Roman", sans-serif;
@@ -97,6 +94,18 @@ footer {
   display: flex;
   justify-content: space-around;
   width: 100%;
+  /* margin-top: 0.25rem; */
+  /* padding-top: 0.5rem;
+  padding-bottom: 0.5rem; */
+  /* min-height: 250px; */
+}
+
+.card p:first-of-type {
+  padding-top: 0.5rem;
+}
+
+.card p:last-of-type {
+  padding-bottom: 0.5rem;
 }
 
 .forecast {
