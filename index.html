@@ -6,17 +6,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Weather Dashboard</title>
     <link rel="stylesheet" href="styles.css" />
+    <!--Uses moment.js to parse unix format dates-->
     <script
       type="text/javascript"
       src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.27.0/moment.min.js"
     ></script>
   </head>
   <body>
-    <header>
+    <header class="header">
       <h1>Weather Dashboard</h1>
     </header>
     <div>
       <aside>
+        <!---Form element to search for a city-->
         <form>
           <div>
             <label for="searchCity">Search for a city:</label>
@@ -27,17 +29,21 @@
               placeholder="Manchester"
             />
             <button class="submit">Search</button>
+          <!--Clear history button-->
             <button class="clear">Clear History</button>
           </form>
+          <!--container to include all searched city buttons saved in local stoarge-->
             <div class="history-container"></div>
           </div>
       </aside>
+      <!--main section set to hidden intially and includes today and forecast sections-->
       <main class="hidden">
         <section class="today">
         </section>
       <section class="forecast">
         </section>
       </main>
+      <!--module type assigned to allow export/import functionality from global.js-->
     <script type="module" src="./script.js"></script>
   </body>
 </html>

@@ -9,7 +9,6 @@ aside {
   display: flex;
   flex-flow: column;
   align-items: stretch;
-  /* width: 18%; */
 }
 
 body > div {
@@ -95,10 +94,6 @@ footer {
   display: flex;
   justify-content: space-around;
   width: 100%;
-  /* margin-top: 0.25rem; */
-  /* padding-top: 0.5rem;
-  padding-bottom: 0.5rem; */
-  /* min-height: 250px; */
 }
 
 .card p:first-of-type {
@@ -114,11 +109,6 @@ footer {
   width: 90%;
 }
 
-/* button {
-  padding: 0.1rem;
-  margin-top: 0.25rem;
-} */
-
 input {
   padding: 0.25rem;
   margin-top: 0.25rem;
@@ -128,18 +118,10 @@ input {
   display: none;
 }
 
-/* header {
-  background-color: #171e55;
-  color: white;
-  background: linear-gradient(#fff 10%, #171e55 87%);
-} */
-
-header {
+.header {
   background: linear-gradient(-90deg, #171e55, #525a9f);
   color: white;
   font-family: "Merriweather Sans", sans-serif;
-  /* font-style: bold; */
-  /* animation: gradient 15s ease infinite; */
 }
 
 button {
@@ -162,7 +144,6 @@ img {
 
 .history-container button {
   background-color: grey;
-  /* padding: 0 1rem; */
 }
 
 .uvi-color {
@@ -177,8 +158,9 @@ img {
 }
 
 @media screen and (max-width: 540px) {
-  .view {
-    width: 400px;
+  main {
+    align-content: center;
+    width: 86%;
   }
 
   .cards {
@@ -192,6 +174,11 @@ img {
   .card {
     margin: 0;
     margin-top: 1rem;
+    padding: 0.25rem;
+  }
+
+  .today p {
+    padding-left: 0.25rem;
   }
 
   .aside {
@@ -202,12 +189,11 @@ img {
   }
 
   .forecast {
-    width: 80%;
+    width: 95%;
   }
 
   .today {
-    width: 80%;
-    padding-left: 0px;
+    width: 95%;
   }
 }
 

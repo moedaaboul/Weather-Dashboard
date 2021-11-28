@@ -33,6 +33,11 @@ Goal is to build a weather app that uses the OpenWeather One Call API to retriev
 - HTML
 - CSS
 
+For further information on the used API's, please check:
+
+- https://openweathermap.org/current
+- https://openweathermap.org/weather-data
+
 ## Appearance
 
 The following image depicts the functionality expected of the webpage:
