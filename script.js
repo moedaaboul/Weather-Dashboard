@@ -14,7 +14,6 @@ const pathName = "https://api.openweathermap.org/data/2.5/";
 const onecallUrl = (latitude, longitude) => {
   return `onecall?lat=${latitude}&lon=${longitude}&exclude=current,minutely,hourly`;
 };
-const currentUrl = "weather?q=";
 
 // https://openweathermap.org/current
 
@@ -29,7 +28,6 @@ let displayCities = () => {
 
 const parseDate = (unixDate) => moment.unix(unixDate).format("MM/DD/YYYY");
 
-let variable = [];
 let searchHistory = [];
 
 const allowed = ["dt", "humidity", "temp", "uvi", "wind_speed", "weather"];
@@ -52,7 +50,7 @@ var getWeather = function (city) {
             let currentDate = parseDate(currentDateUnix);
             console.log(currentDate);
             todaySection.innerHTML = `
-            <h2 class="todayWeather">${cityName} (${currentDate})</h2>
+            <h2 class="todayWeather">${cityName} (${currentDate})<span><img src="http://openweathermap.org/img/w/${data.weather[0].icon}.png"></img></span></h2>
             <p class="temp">Temp: ${data.main.temp} °F</p>
             <p class="wind">Wind: ${data.wind.speed} MPH</p>
             <p class="humidity">Humidity: ${data.main.humidity} %</p>
@@ -78,7 +76,6 @@ var getWeather = function (city) {
                 );
               });
               console.log("results", results);
-              // const uviSpanElement = document.createElement("span");
               let uvi = results[0].uvi;
               const uviColor = document.querySelector(".uvi-color");
               uviColor.innerHTML = uvi;
@@ -96,20 +93,16 @@ var getWeather = function (city) {
               }
               const cardResults = [1, 2, 3, 4, 5].map((item) => results[item]);
               console.log(cardResults);
-              historyContainer.innerHTML = "";
-              /// add loop here for the elements
-              displayCities();
-              // console.log(cardElements);
+              historyContainer.innerHTML = ""; // empties history container before rendering updated list
+              displayCities(); // renders searched cities from local storage
               forecastElements.innerHTML = `<h3>5-Day Forecast</h3><section class="cards">${cardResults
                 .map((obj) => {
                   return `<div class="card">
                     <p>${parseDate(obj.dt)}</p>
                     <p>Temp: ${obj.temp.day} °F</p>
-                    <img
-                      src="http://openweathermap.org/img/w/${
-                        obj.weather[0].icon
-                      }.png"
-                    ></img>
+                    <img src="http://openweathermap.org/img/w/${
+                      obj.weather[0].icon
+                    }.png"></img>
                     <p>Wind: ${obj.wind_speed} MPH</p>
                     <p>Humidity: ${obj.humidity} %</p>
                   </div>`;
@@ -134,7 +127,7 @@ const submitFunction = function (event) {
     searchHistory.unshift(searchedCity);
   }
   localStorage.setItem("storedHistory", JSON.stringify(searchHistory));
-  getWeather(searchedCity, currentUrl);
+  getWeather(searchedCity);
 };
 
 const submitHistoryItem = function (event) {
@@ -144,7 +137,7 @@ const submitHistoryItem = function (event) {
   forecastElements.textContent = "";
   historyContainer.innerHTML = "";
   main.classList.remove("hidden");
-  getWeather(searchedCity, currentUrl);
+  getWeather(searchedCity);
 };
 
 const renderLocalCities = function () {

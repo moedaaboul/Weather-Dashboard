@@ -179,3 +179,7 @@ img {
   color: white;
   text-align: center;
 }
+
+.todayWeather img {
+  width: 2rem;
+}
