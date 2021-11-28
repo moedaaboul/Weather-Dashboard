@@ -30,8 +30,6 @@ const parseDate = (unixDate) => moment.unix(unixDate).format("MM/DD/YYYY");
 
 let searchHistory = [];
 
-const allowed = ["dt", "humidity", "temp", "uvi", "wind_speed", "weather"];
-
 var getWeather = function (city) {
   var apiUrl = `${pathName}weather?q=${city}&units=imperial&appid=${apiKey}`;
 
@@ -64,17 +62,7 @@ var getWeather = function (city) {
           .then((response) =>
             response.json().then(function (data2) {
               console.log(data2);
-              let results = [];
-              data2.daily.forEach((e, i) => {
-                results.push(
-                  Object.keys(e)
-                    .filter((key) => allowed.includes(key))
-                    .reduce((obj, key) => {
-                      obj[key] = e[key];
-                      return obj;
-                    }, {})
-                );
-              });
+              let results = data2.daily;
               console.log("results", results);
               let uvi = results[0].uvi;
               const uviColor = document.querySelector(".uvi-color");
