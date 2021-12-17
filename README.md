@@ -59,6 +59,6 @@ Created by [@moedaaboul](https://github.com/moedaaboul) - feel free to contact m
 
 ## License
 
-This work is licensed under a
+This work is licensed under
 [MIT](https://github.com/moedaaboul/weather-dashboard/blob/main/LICENSE).
 
